@@ -1,15 +1,15 @@
-import 'User.dart';
-import 'Category.dart';
+import 'Users.dart';
+import 'Categories.dart';
 
 class Recipes {
 
   final int id;
   final String title;
-  final User user;
+  final Users user;
   final int notation;
   final String preparation;
   final String image;
-  final Category category;
+  final Categories category;
 
   Recipes(this.id, this.title, this.user, this.notation, this.preparation, this.image, this.category);
 

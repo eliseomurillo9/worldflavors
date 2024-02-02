@@ -1,11 +1,11 @@
-class User {
+class Users {
 
   final int id;
   final String role;
 
-  User(this.id, this.role);
+  Users(this.id, this.role);
 
-  User.fromJson(Map<String, dynamic> json)
+  Users.fromJson(Map<String, dynamic> json)
   : id = json['id'],
     role = json['role'];
 
