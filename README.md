@@ -21,10 +21,11 @@ TEAM :
 * AGZIBUYUK Selin
 
 MCD 
-![Capture d’écran 2024-02-02 112439](https://github.com/eliseomurillo9/worldflavors/assets/133030056/b60ae20a-db40-4ede-b4b7-a01fa5a4e103)
+![Capture d’écran 2024-02-02 115418](https://github.com/eliseomurillo9/worldflavors/assets/133030056/09ef1e74-076c-408b-a27b-ccfd7a5ff066)
 
 MLD
-![Capture d’écran 2024-02-02 112501](https://github.com/eliseomurillo9/worldflavors/assets/133030056/d129a4f2-6dae-46c0-8394-48cb9a45ab6f)
+![Capture d’écran 2024-02-02 115438](https://github.com/eliseomurillo9/worldflavors/assets/133030056/b5b9fe1d-8de0-45d5-821e-5112224b90e4)
+
 
 TRELLO 
 https://trello.com/b/Zflc5g3k/worldflavors
