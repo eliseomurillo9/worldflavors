@@ -79,10 +79,10 @@ class _CardWidgetState extends State<CardWidget> {
                     ),
                     SizedBox(height: 8),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         color: Color(0xFFF8B51E),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Text(
                         widget.categoryName,

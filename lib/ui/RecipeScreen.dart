@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:worldflavors/models/Recipes.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 class RecipeScreen extends StatefulWidget {
-  const RecipeScreen({Key? key}) : super(key: key);
+  final Recipes recipe;
+  const RecipeScreen({Key? key, required this.recipe}) : super(key: key);
 
   @override
   RecipeScreenState createState() => RecipeScreenState();

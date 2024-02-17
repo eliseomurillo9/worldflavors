@@ -21,13 +21,22 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Color(0xFFF8B51E),
       centerTitle: true,
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset(
+          'assets/images/Cutout.png',
+          height: 40,
+          width: 40,
+        ),
+      ),
       actions: [
-        IconButton(onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SearchScreen()),
-          );
-        },
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SearchScreen()),
+            );
+          },
           icon: const Icon(Icons.search),
           color: Colors.white,
         )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:worldflavors/ui/RecipeScreen.dart';
 
 import 'package:worldflavors/ui/share/CategoryItem.dart';
 import 'package:worldflavors/ui/share/Card_widget.dart';
@@ -26,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   final WorldFlavorsService _service = WorldFlavorsService();
   late List<Recipes> _recipes = [];
   late List<Categories> _categories = [];
-  late List<Recipes> _filteredRecipes = [];
 
   @override
   void initState() {
@@ -47,10 +47,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  List<Recipes> filterRecipesByCategory(String categoryName) {
-    return _recipes.where((recipe) => recipe.category.name == categoryName).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +58,6 @@ class _HomePageState extends State<HomePage> {
               return CategoryItem(
                 categoryName: category.name,
                 onPressed: () {
-                  print(category.name);
                 },
               );
             }).toList(),
@@ -76,9 +71,14 @@ class _HomePageState extends State<HomePage> {
                 title: recipe.title,
                 imageUrl: recipe.image,
                 categoryName: recipe.category.name,
-                rating: recipe.notation,
+                rating: recipe.notation.toDouble(),
                 onPressed: () {
-                  //
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeScreen(recipe: recipe),
+                    ),
+                  );
                 },
               );
             }).toList(),
