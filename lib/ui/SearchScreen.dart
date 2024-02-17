@@ -76,7 +76,7 @@ class SearchScreen extends StatelessWidget {
                   return CategoryItem(
                     categoryName: 'Category ${index + 1}',
                     onPressed: () {
-                      print('searching cat');
+
                     }, key: null,
                   );
                 },

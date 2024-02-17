@@ -5,8 +5,6 @@ import 'package:worldflavors/ui/share/Card_widget.dart';
 import 'package:worldflavors/services/worldflavors_service.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'models/Categories.dart';
 import 'models/Recipes.dart';
 
@@ -28,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   final WorldFlavorsService _service = WorldFlavorsService();
   late List<Recipes> _recipes = [];
   late List<Categories> _categories = [];
+  late List<Recipes> _filteredRecipes = [];
 
   @override
   void initState() {
@@ -48,13 +47,16 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  List<Recipes> filterRecipesByCategory(String categoryName) {
+    return _recipes.where((recipe) => recipe.category.name == categoryName).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget('WorldFlavors'),
       body: ListView(
         children: [
-
           Row(
             children: _categories.map((category) {
               return CategoryItem(
@@ -74,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 title: recipe.title,
                 imageUrl: recipe.image,
                 categoryName: recipe.category.name,
-                rating: recipe.notation.toDouble(),
+                rating: recipe.notation,
                 onPressed: () {
                   //
                 },

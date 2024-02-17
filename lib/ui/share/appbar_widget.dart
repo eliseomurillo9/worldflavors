@@ -15,7 +15,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Color(0xFFF8B51E),
+      centerTitle: true,
       actions: [
         IconButton(onPressed: () {
           Navigator.push(
@@ -24,6 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           );
         },
           icon: const Icon(Icons.search),
+          color: Colors.white,
         )
       ],
     );

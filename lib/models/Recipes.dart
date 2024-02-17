@@ -18,10 +18,10 @@ class Recipes {
       : id = json['id'],
         title = json['title'],
         notation = json['notation'],
-        preparation = List<String>.from(json['preparation']), // Convertir en liste de chaînes
+        preparation = List<String>.from(json['preparation']),
         image = json['image'],
         category = Categories.fromJson(json['category']),
-        ingredients = (json['ingredients'] as List<dynamic>) // Convertir chaque élément en Ingredients
+        ingredients = (json['ingredients'] as List<dynamic>)
             .map((ingredientJson) => Ingredients.fromJson(ingredientJson))
             .toList();
 
