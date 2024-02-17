@@ -1,14 +1,14 @@
 class Ingredients {
 
-  final int id;
-  final String name;
-  final int measure;
+  final double quantity;
+  final String unit;
+  final String ingredient;
 
-  Ingredients(this.id, this.name, this.measure);
+  Ingredients(this.quantity, this.unit, this.ingredient);
 
   Ingredients.fromJson(Map<String, dynamic> json)
-  : id = json['id'],
-    name = json['name'],
-    measure = json['measure'];
+  : quantity = json['quantity'],
+    unit = json['unit'],
+    ingredient = json['ingredient'];
 
 }

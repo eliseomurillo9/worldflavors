@@ -14,7 +14,7 @@ class WorldFlavorsService {
     List<Recipes> list = [];
 
     try {
-      final response = await http.get(Uri.parse('${uri}/recipes'));
+      final response = await http.get(Uri.parse('${uri}/recepes'));
 
       if(response.statusCode == 200){
         var json = jsonDecode(utf8.decode(response.bodyBytes));

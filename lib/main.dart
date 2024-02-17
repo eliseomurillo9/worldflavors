@@ -12,8 +12,11 @@ import 'models/Recipes.dart';
 
 
 void main() {
-  runApp(const HomePage());
+  runApp(const MaterialApp(
+    home: HomePage(),
+  ));
 }
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -23,8 +26,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final WorldFlavorsService _service = WorldFlavorsService();
-  late List<Recipes> _recipes;
-  late List<Categories> _categories;
+  late List<Recipes> _recipes = [];
+  late List<Categories> _categories = [];
 
   @override
   void initState() {
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
               return CategoryItem(
                 categoryName: category.name,
                 onPressed: () {
-                  //
+                  print(category.name);
                 },
               );
             }).toList(),
