@@ -1,92 +1,250 @@
 import 'package:flutter/material.dart';
-
-import 'package:worldflavors/ui/share/CategoryItem.dart';
-import 'package:worldflavors/ui/share/Card_widget.dart';
-import 'package:worldflavors/services/worldflavors_service.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
-
-import 'models/Categories.dart';
-import 'models/Recipes.dart';
-
+import 'package:item_count_number_button/item_count_number_button.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: HomePage(),
-  ));
+  runApp(const MyApp());
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final WorldFlavorsService _service = WorldFlavorsService();
-  late List<Recipes> _recipes = [];
-  late List<Categories> _categories = [];
-  late List<Recipes> _filteredRecipes = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orangeAccent),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.orangeAccent,
+        ),
+      ),
+      home: const RecipeScreen(),
+    );
   }
+}
 
-  Future<void> _fetchData() async {
-    try {
-      final recipes = await _service.fetchRecipes();
-      final categories = await _service.fetchCategories();
-      setState(() {
-        _recipes = recipes;
-        _categories = categories;
-      });
-    } catch (e) {
-      print('Erreur de récupération de données : $e');
+class RecipeScreen extends StatefulWidget {
+  const RecipeScreen({Key? key}) : super(key: key);
+
+  @override
+  _RecipeScreenState createState() => _RecipeScreenState();
+}
+
+class _RecipeScreenState extends State<RecipeScreen> {
+  int counter = 1; // Set initialValue to 1
+
+  final List<Map<String, dynamic>> ingredients = [
+    {
+      "quantity": 250,
+      "unit": "g",
+      "ingredient": "pain rassis"
+    },
+    {
+      "quantity": 1,
+      "unit": "œuf",
+      "ingredient": "œufs"
+    },
+    {
+      "quantity": 25,
+      "unit": "cl",
+      "ingredient": "lait"
+    },
+    {
+      "quantity": 0.5,
+      "unit": "unité",
+      "ingredient": "oignon"
+    },
+    {
+      "quantity": 0.5,
+      "unit": "gousse",
+      "ingredient": "ail"
+    },
+    {
+      "quantity": 0,
+      "unit": "",
+      "ingredient": "Persil"
+    },
+    {
+      "quantity": 0,
+      "unit": "",
+      "ingredient": "Sel"
+    },
+    {
+      "quantity": 0,
+      "unit": "",
+      "ingredient": "Poivre"
     }
-  }
+  ];
 
-  List<Recipes> filterRecipesByCategory(String categoryName) {
-    return _recipes.where((recipe) => recipe.category.name == categoryName).toList();
-  }
+  final List<String> preparation = [
+    "Émiettez le pain dans un saladier.",
+    "Faites chauffer le lait et versez-le sur le pain.",
+    "Ajoutez les œufs, l'oignon et l'ail hachés, le persil, le sel et le poivre.",
+    "Mélangez bien le tout.",
+    "Laissez reposer la préparation pendant environ 30 minutes.",
+    "Façonnez des boules avec la préparation et faites-les cuire dans de l'eau bouillante salée pendant 20 minutes."
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget('WorldFlavors'),
-      body: ListView(
-        children: [
-          Row(
-            children: _categories.map((category) {
-              return CategoryItem(
-                categoryName: category.name,
-                onPressed: () {
-                  print(category.name);
-                },
-              );
-            }).toList(),
+      appBar: const AppBarWidget('search'),
+      body: SingleChildScrollView(
+        child: Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.75, // 75% of the screen width
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Title',
+                  style: TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: FractionallySizedBox(
+                    widthFactor: 1.0,
+                    child: Image.network(
+                      'https://dxm.dam.savencia.com/api/wedia/dam/transform/fix635d9eidk6p661qfha99t5g7z8g6m3owhnda/original',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Quantité:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ItemCount(
+                        initialValue: counter,
+                        minValue: 1,
+                        maxValue: 10,
+                        decimalPlaces: 0,
+                        color: Colors.orangeAccent,
+                        onChanged: (value) {
+                          setState(() {
+                            counter = value.toInt();
+                          });
+                          print('Selected value: $value');
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Ingredients:',
+                  style: TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Center( // Center the ingredients section
+                  child: SizedBox(
+                    height: 200, // Set a specific height
+                    child: ListView.builder(
+                      itemCount: (ingredients.length / 2).ceil(),
+                      itemBuilder: (context, index) {
+                        final firstIngredientIndex = index * 2;
+                        final secondIngredientIndex = index * 2 + 1;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${ingredients[firstIngredientIndex]['ingredient']}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                '- ${ingredients[firstIngredientIndex]['quantity']} ${ingredients[firstIngredientIndex]['unit']}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(width: 16), // Add some spacing between the columns
+                            Expanded(
+                              child: Text(
+                                '${ingredients[secondIngredientIndex]['ingredient']}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                '- ${ingredients[secondIngredientIndex]['quantity']} ${ingredients[secondIngredientIndex]['unit']}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Préparation:',
+                  style: TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: preparation.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${index + 1}\n',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.yellow,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              preparation[index],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 20),
-          _recipes != null
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: _recipes.map((recipe) {
-              return CardWidget(
-                title: recipe.title,
-                imageUrl: recipe.image,
-                categoryName: recipe.category.name,
-                rating: recipe.notation,
-                onPressed: () {
-                  //
-                },
-              );
-            }).toList(),
-          )
-              : Center(
-            child: CircularProgressIndicator(),
-          ),
-        ],
+        ),
       ),
     );
   }
