@@ -4,7 +4,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'chip_widget.dart';
 
 class CardWidget extends StatefulWidget {
-  const CardWidget({Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+
+  const CardWidget({Key? key, required String title, required String imageUrl, required String categoryName, required double rating, required this.onPressed}) : super(key: key);
 
   @override
   _CardWidgetState createState() => _CardWidgetState();

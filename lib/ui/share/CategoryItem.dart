@@ -4,11 +4,7 @@ class CategoryItem extends StatelessWidget {
   final String categoryName;
   final VoidCallback onPressed;
 
-  const CategoryItem({
-    required Key? key,
-    required this.categoryName,
-    required this.onPressed,
-  }) : super(key: key);
+  const CategoryItem({Key? key, required this.categoryName, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

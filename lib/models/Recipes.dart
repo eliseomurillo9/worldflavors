@@ -17,5 +17,5 @@ class Recipes {
       notation = json['notation'],
       preparation = json['preparation'],
       image = json['image'],
-      category = json['category'];
+      category = Categories.fromJson(json['category']);
 }
