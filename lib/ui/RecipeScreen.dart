@@ -113,7 +113,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
                             const SizedBox(width: 8),
                             Expanded(
                               child: firstIngredientExists ? Text(
-                                '- ${widget.recipe.ingredients[firstIngredientIndex].quantity} ${widget.recipe.ingredients[firstIngredientIndex].unit}',
+                                '${widget.recipe.ingredients[firstIngredientIndex].quantity} ${widget.recipe.ingredients[firstIngredientIndex].unit}',
                                 textAlign: TextAlign.center,
                               ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
                             ),
