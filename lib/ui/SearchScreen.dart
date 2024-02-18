@@ -34,16 +34,6 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  Future<List<Recipes>> _fetchRecipesByCategory(String category) async {
-    try {
-      final recipes = await _service.fetchRecipesByCategory(category);
-      return recipes;
-    } catch (e) {
-      print('Error fetching recipes by category: $e');
-      throw e; // Re-throw the exception to handle it elsewhere if needed
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,8 +106,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   return CategoryItem(
                     categoryName: category.name,
                     onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/',
+                        arguments: category.name,
+                      );
                       print(category.name);
-                      _fetchRecipesByCategory(category.name).then((recipes) {
+                      _service.fetchRecipesByCategory(category.name).then((recipes) {
                         for (var recipe in recipes) {
                           print(recipe.title);
                         }

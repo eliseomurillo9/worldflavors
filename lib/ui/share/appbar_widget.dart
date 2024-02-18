@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../SearchScreen.dart';
 
 
@@ -21,12 +22,20 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Color(0xFFF8B51E),
       centerTitle: true,
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.asset(
-          'assets/images/Cutout.png',
-          height: 100,
-          width: 100,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'assets/images/Cutout.png',
+            height: 100,
+            width: 100,
+          ),
         ),
       ),
       actions: [

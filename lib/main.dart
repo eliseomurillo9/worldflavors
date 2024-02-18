@@ -24,11 +24,12 @@ class _HomePageState extends State<HomePage> {
   final WorldFlavorsService _service = WorldFlavorsService();
   late List<Recipes> _recipes = [];
   late List<Categories> _categories = [];
+  late String? selectedCountry;
+  bool _hasLoadedCountryRecipes = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
   }
 
   Future<void> _fetchData() async {
@@ -44,14 +45,30 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _fetchRecipesByCategory(String category) async {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      selectedCountry = ModalRoute.of(context)!.settings.arguments as String;
+      if (!_hasLoadedCountryRecipes) {
+        _fetchRecipesByCountry(selectedCountry!);
+      }
+    } else {
+      _fetchData();
+    }
+  }
+
+
+  Future<void> _fetchRecipesByCountry(String country) async {
     try {
-      final recipes = await _service.fetchRecipesByCategory(category);
+      final recipes = await _service.fetchRecipesByCategory(country);
       setState(() {
         _recipes = recipes;
+        _hasLoadedCountryRecipes = true;
       });
     } catch (e) {
-      print('Error fetching recipes by category: $e');
+      print('Impossible de récupérer les recettes du pays sélectionné : $e');
     }
   }
 
@@ -74,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                       return CategoryItem(
                         categoryName: category.name,
                         onPressed: () {
-                          _fetchRecipesByCategory(category.name);
+                          _fetchRecipesByCountry(category.name);
                         },
                       );
                     }).toList(),
