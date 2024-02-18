@@ -44,6 +44,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _fetchRecipesByCategory(String category) async {
+    try {
+      final recipes = await _service.fetchRecipesByCategory(category);
+      setState(() {
+        _recipes = recipes;
+      });
+    } catch (e) {
+      print('Error fetching recipes by category: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +73,9 @@ class _HomePageState extends State<HomePage> {
                     children: _categories.map((category) {
                       return CategoryItem(
                         categoryName: category.name,
-                        onPressed: () {},
+                        onPressed: () {
+                          _fetchRecipesByCategory(category.name);
+                        },
                       );
                     }).toList(),
                   ),
@@ -99,5 +112,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }

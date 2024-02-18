@@ -1,9 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:worldflavors/ui/share/CategoryItem.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
+import 'package:worldflavors/services/worldflavors_service.dart';
+import 'package:worldflavors/models/Categories.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key ? key}) : super(key: key);
+import '../models/Recipes.dart';
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final WorldFlavorsService _service = WorldFlavorsService();
+  late List<Categories> _categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategories();
+  }
+
+  Future<void> _fetchCategories() async {
+    try {
+      final categories = await _service.fetchCategories();
+      setState(() {
+        _categories = categories;
+      });
+    } catch (e) {
+      print('Error fetching categories: $e');
+    }
+  }
+
+  Future<List<Recipes>> _fetchRecipesByCategory(String category) async {
+    try {
+      final recipes = await _service.fetchRecipesByCategory(category);
+      return recipes;
+    } catch (e) {
+      print('Error fetching recipes by category: $e');
+      throw e; // Re-throw the exception to handle it elsewhere if needed
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                     const Expanded(
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: 'hola que hace',
+                          hintText: 'Search',
                           border: InputBorder.none,
                         ),
                       ),
@@ -47,37 +87,45 @@ class SearchScreen extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.search, color: Colors.orange),
                       onPressed: () {
-                        print('I worked');
+                        print('Search button pressed');
                       },
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 70),
               const Text(
-                'Trier par ingredients',
+                'Trier par Pays',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xFFB12E23),
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 20.0,
-                  mainAxisSpacing: 20.0,
+                  crossAxisSpacing: 10.0, // Reduce cross axis spacing
+                  mainAxisSpacing: 10.0, // Reduce main axis spacing
                   childAspectRatio: 2,
                 ),
-                itemCount: 6,
+                itemCount: _categories.length,
                 itemBuilder: (context, index) {
+                  final category = _categories[index];
                   return CategoryItem(
-                    categoryName: 'Category ${index + 1}',
+                    categoryName: category.name,
                     onPressed: () {
-
-                    }, key: null,
+                      print(category.name);
+                      _fetchRecipesByCategory(category.name).then((recipes) {
+                        for (var recipe in recipes) {
+                          print(recipe.title);
+                        }
+                      }).catchError((error) {
+                        print('Error fetching recipes: $error');
+                      });
+                    },
                   );
                 },
               ),
@@ -87,6 +135,4 @@ class SearchScreen extends StatelessWidget {
       ),
     );
   }
-
-  }
-
+}

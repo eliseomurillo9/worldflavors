@@ -31,6 +31,17 @@ class WorldFlavorsService {
     return list;
   }
 
+  Future<List<Recipes>> fetchRecipesByCategory(String category) async {
+    try {
+      final List<Recipes> allRecipes = await fetchRecipes();
+      final List<Recipes> recipesByCountry =
+      allRecipes.where((recipe) => recipe.category.name == category).toList();
+      return recipesByCountry;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<Categories>> fetchCategories() async {
     List<Categories> list = [];
 
