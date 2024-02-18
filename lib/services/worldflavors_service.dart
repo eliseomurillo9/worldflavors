@@ -46,14 +46,16 @@ class WorldFlavorsService {
     final url = Uri.parse('$uri/recepes/$recipeId');
 
     try {
-      final response = await http.patch(
+      final List<Recipes> allRecipes = await fetchRecipes();
+      final Recipes recipeToUpdate = allRecipes.firstWhere((recipe) => recipe.id == recipeId);
+      recipeToUpdate.notation = newNotation;
+
+      final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{
-          'notation': newNotation,
-        }),
+        body: jsonEncode(recipeToUpdate.toJson()),
       );
 
       if (response.statusCode != 200) {
@@ -63,6 +65,7 @@ class WorldFlavorsService {
       throw e;
     }
   }
+
 
   Future<List<Categories>> fetchCategories() async {
     List<Categories> list = [];
