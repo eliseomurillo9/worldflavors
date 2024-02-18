@@ -72,6 +72,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _fetchAllRecipes() async {
+    try {
+      final recipes = await _service.fetchRecipes();
+      setState(() {
+        _recipes = recipes;
+      });
+    } catch (e) {
+      print('Error fetching all recipes: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +95,11 @@ class _HomePageState extends State<HomePage> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
+                  CategoryItem(
+                    categoryName: 'Tous les catégories',
+                    onPressed: _fetchAllRecipes,
+                  ),
+                  const SizedBox(width: 3.0),
                   Wrap(
                     spacing: 3.0,
                     runSpacing: 3.0,

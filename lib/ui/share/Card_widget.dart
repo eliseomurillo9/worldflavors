@@ -99,7 +99,6 @@ class _CardWidgetState extends State<CardWidget> {
                         setState(() {
                           _rating = rating;
                         });
-                        // Call the updateRecipeNotation method when rating is updated
                         _updateNotation(widget.id, rating);
                       },
                     ),
@@ -115,12 +114,8 @@ class _CardWidgetState extends State<CardWidget> {
 
   Future<void> _updateNotation(String recipeId, double newNotation) async {
     try {
-      print('working');
-      print(recipeId);
-      print(newNotation);
       await WorldFlavorsService().updateRecipeNotation(recipeId, newNotation);
     } catch (e) {
-      // Handle any errors here
       print('Failed to update notation: $e');
     }
   }

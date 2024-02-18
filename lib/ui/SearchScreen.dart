@@ -34,6 +34,15 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  Future<List<Recipes>> _fetchRecipesByCategory(String category) async {
+    try {
+      final recipes = await _service.fetchRecipesByCategory(category);
+      return recipes;
+    } catch (e) {
+      print('Error fetching recipes by category: $e');
+      throw e;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,8 +105,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 10.0, // Reduce cross axis spacing
-                  mainAxisSpacing: 10.0, // Reduce main axis spacing
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
                   childAspectRatio: 2,
                 ),
                 itemCount: _categories.length,

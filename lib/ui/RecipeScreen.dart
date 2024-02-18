@@ -13,7 +13,7 @@ class RecipeScreen extends StatefulWidget {
 }
 
 class RecipeScreenState extends State<RecipeScreen>  {
-  int counter = 1; // Set initialValue to 1
+  int counter = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
       body: SingleChildScrollView(
         child: Center(
           child: FractionallySizedBox(
-            widthFactor: 0.75, // 75% of the screen width
+            widthFactor: 0.75,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +30,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
                 Text(
                   widget.recipe.title,
                   style: const TextStyle(
-                    color: Colors.red, // Change title color to red
+                    color: Colors.red,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,15 +79,15 @@ class RecipeScreenState extends State<RecipeScreen>  {
                 const Text(
                   'Ingredients:',
                   style: TextStyle(
-                    color: Colors.red, // Change title color to red
+                    color: Colors.red,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 8),
-                Center( // Center the ingredients section
+                Center(
                   child: SizedBox(
-                    height: 90, // Set a specific height
+                    height: 90,
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -96,9 +96,8 @@ class RecipeScreenState extends State<RecipeScreen>  {
                         final firstIngredientIndex = index * 2;
                         final secondIngredientIndex = index * 2 + 1;
 
-                        // Check if the first ingredient index is within bounds
                         final firstIngredientExists = firstIngredientIndex < widget.recipe.ingredients.length;
-                        // Check if the second ingredient index is within bounds
+
                         final secondIngredientExists = secondIngredientIndex < widget.recipe.ingredients.length;
 
                         return Row(
@@ -130,7 +129,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
                               child: secondIngredientExists ? Text(
                                 '${widget.recipe.ingredients[secondIngredientIndex].quantity} ${widget.recipe.ingredients[secondIngredientIndex].unit}',
                                 textAlign: TextAlign.center,
-                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                              ) : SizedBox(),
                             ),
                           ],
                         );
@@ -142,7 +141,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
                 const Text(
                   'Préparation:',
                   style: TextStyle(
-                    color: Colors.red, // Change title color to red
+                    color: Colors.red,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
