@@ -11,68 +11,173 @@ class RecipeScreen extends StatefulWidget {
   RecipeScreenState createState() => RecipeScreenState();
 }
 
-class RecipeScreenState extends State<RecipeScreen> {
+class RecipeScreenState extends State<RecipeScreen>  {
   int counter = 1; // Set initialValue to 1
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarWidget('search'),
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.75, // 75% of the screen width
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Title',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: FractionallySizedBox(
-                  widthFactor: 1.0,
-                  child: Image.network(
-                    'https://dxm.dam.savencia.com/api/wedia/dam/transform/fix635d9eidk6p661qfha99t5g7z8g6m3owhnda/original',
-                    fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.75, // 75% of the screen width
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.recipe.title,
+                  style: const TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    const Text(
-                      'Quantité:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const SizedBox(height: 16),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: FractionallySizedBox(
+                    widthFactor: 1.0,
+                    child: Image.network(
+                      widget.recipe.image,
+                      fit: BoxFit.contain,
                     ),
-                    const SizedBox(width: 8),
-                    ItemCount(
-                      initialValue: counter,
-                      minValue: 1,
-                      maxValue: 10,
-                      decimalPlaces: 0,
-                      color: Colors.orangeAccent,
-                      onChanged: (value) {
-                        setState(() {
-                          counter = value.toInt();
-                        });
-                        print('Selected value: $value');
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Quantité:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ItemCount(
+                        initialValue: counter,
+                        minValue: 1,
+                        maxValue: 10,
+                        decimalPlaces: 0,
+                        color: Colors.orangeAccent,
+                        onChanged: (value) {
+                          setState(() {
+                            counter = value.toInt();
+                          });
+                          print('Selected value: $value');
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Ingredients:',
+                  style: TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Center( // Center the ingredients section
+                  child: SizedBox(
+                    height: 200, // Set a specific height
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: (widget.recipe.ingredients.length / 2).ceil(),
+                      itemBuilder: (context, index) {
+                        final firstIngredientIndex = index * 2;
+                        final secondIngredientIndex = index * 2 + 1;
+
+                        // Check if the first ingredient index is within bounds
+                        final firstIngredientExists = firstIngredientIndex < widget.recipe.ingredients.length;
+                        // Check if the second ingredient index is within bounds
+                        final secondIngredientExists = secondIngredientIndex < widget.recipe.ingredients.length;
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: firstIngredientExists ? Text(
+                                '${widget.recipe.ingredients[firstIngredientIndex].ingredient}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: firstIngredientExists ? Text(
+                                '- ${widget.recipe.ingredients[firstIngredientIndex].quantity} ${widget.recipe.ingredients[firstIngredientIndex].unit}',
+                                textAlign: TextAlign.center,
+                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                            ),
+                            const SizedBox(width: 16), // Add some spacing between the columns
+                            Expanded(
+                              child: secondIngredientExists ? Text(
+                                '${widget.recipe.ingredients[secondIngredientIndex].ingredient}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: secondIngredientExists ? Text(
+                                '- ${widget.recipe.ingredients[secondIngredientIndex].quantity} ${widget.recipe.ingredients[secondIngredientIndex].unit}',
+                                textAlign: TextAlign.center,
+                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                            ),
+                          ],
+                        );
                       },
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                const Text(
+                  'Préparation:',
+                  style: TextStyle(
+                    color: Colors.red, // Change title color to red
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: widget.recipe.preparation.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${index + 1}\n',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.yellow,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              widget.recipe.preparation[index],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
