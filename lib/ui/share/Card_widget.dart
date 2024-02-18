@@ -2,16 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../../services/worldflavors_service.dart';
+
 class CardWidget extends StatefulWidget {
   final String title;
   final String imageUrl;
   final String categoryName;
   final double rating;
   final VoidCallback onPressed;
+  final String id;
 
   const CardWidget({
     Key? key,
     required this.title,
+    required this.id,
     required this.imageUrl,
     required this.categoryName,
     required this.rating,
@@ -23,6 +27,14 @@ class CardWidget extends StatefulWidget {
 }
 
 class _CardWidgetState extends State<CardWidget> {
+  late double _rating;
+
+  @override
+  void initState() {
+    super.initState();
+    _rating = widget.rating;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -65,7 +77,7 @@ class _CardWidgetState extends State<CardWidget> {
                       ),
                       child: Text(
                         widget.categoryName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
@@ -73,7 +85,7 @@ class _CardWidgetState extends State<CardWidget> {
                     ),
                     SizedBox(height: 8),
                     RatingBar.builder(
-                      initialRating: widget.rating,
+                      initialRating: _rating,
                       minRating: 1,
                       direction: Axis.horizontal,
                       allowHalfRating: true,
@@ -84,7 +96,11 @@ class _CardWidgetState extends State<CardWidget> {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        // You can add functionality here if needed
+                        setState(() {
+                          _rating = rating;
+                        });
+                        // Call the updateRecipeNotation method when rating is updated
+                        _updateNotation(widget.id, rating);
                       },
                     ),
                   ],
@@ -95,5 +111,17 @@ class _CardWidgetState extends State<CardWidget> {
         ),
       ),
     );
+  }
+
+  Future<void> _updateNotation(String recipeId, double newNotation) async {
+    try {
+      print('working');
+      print(recipeId);
+      print(newNotation);
+      await WorldFlavorsService().updateRecipeNotation(recipeId, newNotation);
+    } catch (e) {
+      // Handle any errors here
+      print('Failed to update notation: $e');
+    }
   }
 }

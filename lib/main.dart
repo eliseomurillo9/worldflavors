@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
               children: _recipes.map((recipe) {
                 return CardWidget(
                   title: recipe.title,
+                  id: recipe.id,
                   imageUrl: recipe.image,
                   categoryName: recipe.category.name,
                   rating: recipe.notation.toDouble(),

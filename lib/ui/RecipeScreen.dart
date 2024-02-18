@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worldflavors/models/Recipes.dart';
+import 'package:worldflavors/services/worldflavors_service.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
@@ -86,7 +87,7 @@ class RecipeScreenState extends State<RecipeScreen>  {
                 const SizedBox(height: 8),
                 Center( // Center the ingredients section
                   child: SizedBox(
-                    height: 200, // Set a specific height
+                    height: 90, // Set a specific height
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -108,27 +109,26 @@ class RecipeScreenState extends State<RecipeScreen>  {
                                 '${widget.recipe.ingredients[firstIngredientIndex].ingredient}',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
-                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                              ) : const SizedBox(),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 15),
                             Expanded(
                               child: firstIngredientExists ? Text(
                                 '${widget.recipe.ingredients[firstIngredientIndex].quantity} ${widget.recipe.ingredients[firstIngredientIndex].unit}',
                                 textAlign: TextAlign.center,
-                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                              ) : SizedBox(),
                             ),
-                            const SizedBox(width: 16), // Add some spacing between the columns
+                            const SizedBox(width: 50),
                             Expanded(
                               child: secondIngredientExists ? Text(
                                 '${widget.recipe.ingredients[secondIngredientIndex].ingredient}',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
-                              ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
+                              ) : SizedBox(),
                             ),
-                            const SizedBox(width: 8),
                             Expanded(
                               child: secondIngredientExists ? Text(
-                                '- ${widget.recipe.ingredients[secondIngredientIndex].quantity} ${widget.recipe.ingredients[secondIngredientIndex].unit}',
+                                '${widget.recipe.ingredients[secondIngredientIndex].quantity} ${widget.recipe.ingredients[secondIngredientIndex].unit}',
                                 textAlign: TextAlign.center,
                               ) : SizedBox(), // Use SizedBox if the ingredient doesn't exist
                             ),
