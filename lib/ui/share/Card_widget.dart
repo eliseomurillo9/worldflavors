@@ -1,7 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-import 'chip_widget.dart';
 
 class CardWidget extends StatefulWidget {
   final String title;
@@ -20,30 +19,10 @@ class CardWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CardWidgetState createState() => _CardWidgetState(
-    title: title,
-    imageUrl: imageUrl,
-    categoryName: categoryName,
-    rating: rating,
-    onPressed: onPressed,
-  );
+  _CardWidgetState createState() => _CardWidgetState();
 }
 
 class _CardWidgetState extends State<CardWidget> {
-  final String title;
-  final String imageUrl;
-  final String categoryName;
-  final double rating;
-  final VoidCallback onPressed;
-
-  _CardWidgetState({
-    required this.title,
-    required this.imageUrl,
-    required this.categoryName,
-    required this.rating,
-    required this.onPressed,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -93,24 +72,20 @@ class _CardWidgetState extends State<CardWidget> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    Row(
-                      children: [
-                        RatingBar.builder(
-                          initialRating: widget.rating,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemSize: 20,
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-
-                          },
-                        ),
-                      ],
+                    RatingBar.builder(
+                      initialRating: widget.rating,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 20,
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        // You can add functionality here if needed
+                      },
                     ),
                   ],
                 ),

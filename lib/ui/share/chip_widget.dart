@@ -18,7 +18,10 @@ class ChipWidget extends StatelessWidget {
       ),
       child: Text(
         categoryName,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(
+          fontSize: 4.0, // Set the font size to 12.0
+          color: Colors.white,
+        ),
       ),
     );
   }

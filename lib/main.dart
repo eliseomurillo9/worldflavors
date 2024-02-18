@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:worldflavors/ui/RecipeScreen.dart';
-
 import 'package:worldflavors/ui/share/CategoryItem.dart';
 import 'package:worldflavors/ui/share/Card_widget.dart';
 import 'package:worldflavors/services/worldflavors_service.dart';
 import 'package:worldflavors/ui/share/appbar_widget.dart';
-
 import 'models/Categories.dart';
 import 'models/Recipes.dart';
-
 
 void main() {
   runApp(const MaterialApp(
@@ -47,46 +44,71 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _fetchRecipesByCategory(String category) async {
+    try {
+      final recipes = await _service.fetchRecipesByCategory(category);
+      setState(() {
+        _recipes = recipes;
+      });
+    } catch (e) {
+      print('Error fetching recipes by category: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget('WorldFlavors'),
-      body: ListView(
-        children: [
-          Row(
-            children: _categories.map((category) {
-              return CategoryItem(
-                categoryName: category.name,
-                onPressed: () {
-                },
-              );
-            }).toList(),
-          ),
-          SizedBox(height: 20),
-          _recipes != null
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: _recipes.map((recipe) {
-              return CardWidget(
-                title: recipe.title,
-                imageUrl: recipe.image,
-                categoryName: recipe.category.name,
-                rating: recipe.notation.toDouble(),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeScreen(recipe: recipe),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          )
-              : Center(
-            child: CircularProgressIndicator(),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Wrap(
+                    spacing: 3.0,
+                    runSpacing: 3.0,
+                    children: _categories.map((category) {
+                      return CategoryItem(
+                        categoryName: category.name,
+                        onPressed: () {
+                          _fetchRecipesByCategory(category.name);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            _recipes.isNotEmpty
+                ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _recipes.map((recipe) {
+                return CardWidget(
+                  title: recipe.title,
+                  imageUrl: recipe.image,
+                  categoryName: recipe.category.name,
+                  rating: recipe.notation.toDouble(),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RecipeScreen(recipe: recipe),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            )
+                : const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ],
+        ),
       ),
     );
   }

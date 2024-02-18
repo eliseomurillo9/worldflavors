@@ -28,7 +28,7 @@ class CategoryItem extends StatelessWidget {
               categoryName ?? 'example 1',
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
